@@ -6,6 +6,7 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.snrk.eventchests.interfaces.SlotClicker;
 
 public class ChestContent {
@@ -40,7 +41,7 @@ public class ChestContent {
                 int playerIndex = getPlayerSwapIndex(i);
                 ItemStack stack = playerInventory.getStack(playerIndex);
                 if (stack.getCount() > 0) {
-                    client.player.sendMessage(new LiteralText("Make sure you have enough space in your inventory."), false);
+                    EventChestsMod.printFeedback("Du hast nicht genug Platz im Inventar.");
                     return;
                 }
             }
