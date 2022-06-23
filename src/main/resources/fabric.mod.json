@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "event-chests",
+  "version": "${version}",
+
+  "name": "Event Chests",
+  "description": "This is an example description! Tell everyone what your mod is about!",
+  "authors": [
+    "Snrk"
+  ],
+  "contact": {
+    "homepage": "https://snrk.net/",
+    "sources": "https://github.com/snrks/fabric-event-chests"
+  },
+
+  "license": "MIT",
+  "icon": "assets/modid/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.snrk.eventchests.EventChestsMod"
+    ]
+  },
+  "mixins": [
+    "event-chests.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.14.6",
+    "fabric": "*",
+    "minecraft": "~1.18.2",
+    "java": ">=17"
+  }
+}
