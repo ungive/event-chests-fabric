@@ -21,7 +21,7 @@ public class EventChestsMod implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        keyMoveChest = registerKey("movechestcontent", GLFW.GLFW_KEY_Y);
+        keyMoveChest = registerKey("movechestcontent", GLFW.GLFW_KEY_X);
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (keyMoveChest.wasPressed()) {
