@@ -38,6 +38,9 @@ public class SignContent {
 
     private static ArrayList<Line> savedSignContent = null;
 
+    private static final java.lang.Character FORMAT_CHAR = '\u00A7';
+    private static final java.lang.Character ALT_FORMAT_CHAR = '&';
+
     private static SignBlockEntity getSignAtCrosshair() {
         MinecraftClient client = MinecraftClient.getInstance();
         HitResult hit = client.crosshairTarget;
@@ -104,6 +107,68 @@ public class SignContent {
         }
     }
 
+    private static String formatForColorName(String colorName) {
+        return FORMAT_CHAR + switch (colorName) {
+            case "dark_red" -> "4";
+            case "red" -> "c";
+            case "gold" -> "6";
+            case "yellow" -> "e";
+            case "dark_green" -> "2";
+            case "green" -> "a";
+            case "aqua" -> "b";
+            case "dark_aqua" -> "3";
+            case "dark_blue" -> "1";
+            case "blue" -> "9";
+            case "light_purple" -> "d";
+            case "dark_purple" -> "5";
+            case "white" -> "f";
+            case "gray" -> "7";
+            case "dark_gray" -> "8";
+            case "black" -> "0";
+            default -> "";
+        };
+    }
+
+    private static String formatPrefixForStyle(Style style) {
+        StringBuilder prefixes = new StringBuilder();
+        if (style.getColor() != null) {
+            String colorName = style.getColor().getName();
+            prefixes.append(formatForColorName(colorName));
+        }
+        if (style.isObfuscated()) prefixes.append(FORMAT_CHAR).append('k');
+        if (style.isBold()) prefixes.append(FORMAT_CHAR).append('l');
+        if (style.isStrikethrough()) prefixes.append(FORMAT_CHAR).append('m');
+        if (style.isUnderlined()) prefixes.append(FORMAT_CHAR).append('n');
+        if (style.isItalic()) prefixes.append(FORMAT_CHAR).append('o');
+        return prefixes.toString();
+    }
+
+    private static String normalizeText(Text text) {
+        StringBuilder value = new StringBuilder();
+        if (!text.getSiblings().isEmpty()) {
+            for (Text sibling : text.getSiblings()) {
+                if (!sibling.getSiblings().isEmpty()) {
+                    EventChestsMod.LOGGER.error("Unexpected siblings of a sibling.");
+                }
+                if (!sibling.getString().isEmpty()) {
+                    Style style = sibling.getStyle();
+                    value.append(formatPrefixForStyle(style));
+                    value.append(sibling.getString());
+                    value.append(FORMAT_CHAR).append('r');
+                }
+            }
+        }
+        else if (!text.getStyle().isEmpty() && !text.getString().isEmpty()) {
+            value.append(formatPrefixForStyle(text.getStyle()));
+            value.append(text.getString());
+            value.append(FORMAT_CHAR).append('r');
+        }
+        else {
+            value.append(text.getString());
+        }
+        return value.toString().replace(FORMAT_CHAR, ALT_FORMAT_CHAR);
+    }
+
     public static void restoreSignContentAtCrosshair() {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player == null) {
@@ -111,10 +176,10 @@ public class SignContent {
         }
         for (int i = 0; i < SIGN_LINE_COUNT; i++) {
             Line line = getSavedSignContentLine(i);
-            String lineFormatted = line.text.getString().replace('\u00A7', '&');
+            String lineFormatted = normalizeText(line.text);
             if (lineFormatted.length() > 0) {
                 String message = String.format("/editsign set %d %s", i + 1, lineFormatted);
-                EventChestsMod.LOGGER.debug(String.format("Sending command: %s", message));
+                EventChestsMod.LOGGER.info(String.format("Sending command: %s", message));
                 client.player.sendChatMessage(message);
             }
         }
