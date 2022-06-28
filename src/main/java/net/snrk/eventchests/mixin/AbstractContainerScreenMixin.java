@@ -100,7 +100,7 @@ public abstract class AbstractContainerScreenMixin extends Screen implements Slo
 
         HandledScreen<?> handledScreen = (HandledScreen<?>)(Screen)this;
 
-        if (EventChestsMod.keyMoveChest.matchesKey(keyCode, scanCode)) {
+        if (EventChestsMod.keyInteract.matchesKey(keyCode, scanCode)) {
             ChestContent.swapInventoryContents(handledScreen);
             cir.setReturnValue(true);
             cir.cancel();

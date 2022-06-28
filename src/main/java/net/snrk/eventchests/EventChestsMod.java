@@ -17,14 +17,14 @@ public class EventChestsMod implements ModInitializer {
 
     public static final String OUTPUT_PREFIX = "§f[§cEv§7ent§cCh§7ests§f]§r §d";
 
-    public static KeyBinding keyMoveChest;
+    public static KeyBinding keyInteract;
 
     @Override
     public void onInitialize() {
-        keyMoveChest = registerKey("movechestcontent", GLFW.GLFW_KEY_X);
+        keyInteract = registerKey("interact", GLFW.GLFW_KEY_X);
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (keyMoveChest.wasPressed()) {
+            if (keyInteract.wasPressed()) {
                 if (SignContent.isPlayerLookingAtSign()) {
                     SignContent.handleSignAtCrosshair();
                 }
