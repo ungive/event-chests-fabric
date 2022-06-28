@@ -48,8 +48,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class AbstractContainerScreenMixin extends Screen implements SlotClicker {
 
     private static final int PLAYERSLOTS = 36;      // # of slots in player inventory -> so not in container
-    private static int PLAYERINVCOLS = 9;           // let's not make those final; maybe we'll need compatibility
-    private static int PLAYERINVROWS = 4;           // with some mod at some point which changes these.
+    private static final int PLAYERINVCOLS = 9;           // let's not make those final; maybe we'll need compatibility
+    private static final int PLAYERINVROWS = 4;           // with some mod at some point which changes these.
 
     @Shadow protected void onMouseClick(Slot slot, int invSlot, int button, SlotActionType slotActionType) {}
     @Shadow @Final protected ScreenHandler handler;
@@ -105,33 +105,6 @@ public abstract class AbstractContainerScreenMixin extends Screen implements Slo
             cir.setReturnValue(true);
             cir.cancel();
         }
-
-        if (true) {
-            return;
-        }
-
-        /*if (ExampleMod.keySortPlInv.matchesKey(keyCode, scanCode)) {
-            ExtendedGuiChest.sortInventory(this, false, MinecraftClient.getInstance().player.getInventory());
-            cir.setReturnValue(true);
-            cir.cancel();
-        } else if (!isSupportedScreenHandler(handler)) {
-            return;
-        } else if (ExampleMod.keyMoveToChest.matchesKey(keyCode, scanCode)) {
-            ExtendedGuiChest.moveMatchingItems(handledScreen, false);
-            cir.setReturnValue(true);
-            cir.cancel();
-        } else if (ExampleMod.keySortChest.matchesKey(keyCode, scanCode)) {
-            ExtendedGuiChest.sortInventory(this, true, handler.getSlot(0).inventory);
-            cir.setReturnValue(true);
-            cir.cancel();
-        } else if (ExampleMod.keyMoveToPlInv.matchesKey(keyCode, scanCode)) {
-            ExtendedGuiChest.moveMatchingItems(handledScreen, true);
-            cir.setReturnValue(true);
-            cir.cancel();
-        } else if (ExampleMod.keySearchBox.matchesKey(keyCode, scanCode)) {
-            cir.setReturnValue(true);
-            cir.cancel();
-        }*/
     }
 
     private boolean loggedScreenHandlerClass = false;
@@ -150,26 +123,4 @@ public abstract class AbstractContainerScreenMixin extends Screen implements Slo
         }
         return false;
     }
-    
-    /**
-     * Gets the number of inventory rows in the Chest inventory. 
-     * This does not include the PLAYERINVROWS rows in the player inventory.
-     * @return the number of inventory rows
-     */
-    
-    /*public int getSlotRowCount() {
-        int size = handler.slots.size() - PLAYERSLOTS;
-        if (false) {
-            return size / getSlotColumnCount();
-        }
-        return Math.min(6, size/PLAYERINVCOLS);
-    }*/
-    
-    /*public int getSlotColumnCount() {
-        int size = handler.slots.size() - PLAYERSLOTS;
-        if (false) {
-            return (size <= 81 ? PLAYERINVCOLS : size/PLAYERINVCOLS);
-        }
-        return PLAYERINVCOLS;
-    }*/
 }
