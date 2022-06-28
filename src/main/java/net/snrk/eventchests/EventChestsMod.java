@@ -15,7 +15,7 @@ public class EventChestsMod implements ModInitializer {
 
     private static final String KEY_CATEGORY = "key.categories.testchestmoves";
 
-    public static final String OUTPUT_PREFIX = "§7[§4Ev§fent§4Ch§fests§7]§r §d";
+    public static final String OUTPUT_PREFIX = "§f[§cEv§7ent§cCh§7ests§f]§r §d";
 
     public static KeyBinding keyMoveChest;
 
