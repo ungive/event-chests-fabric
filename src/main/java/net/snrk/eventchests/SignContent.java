@@ -85,8 +85,13 @@ public class SignContent {
                     }
                 }
             }
-            if (!hasSavedSignContent() && !isEmpty) {
-                saveSignContentAtCrosshair();
+            if (!hasSavedSignContent()) {
+                if (isEmpty) {
+                    EventChestsMod.printFeedback("Das Schild ist unbeschriftet.");
+                }
+                else {
+                    saveSignContentAtCrosshair();
+                }
             }
         }
     }

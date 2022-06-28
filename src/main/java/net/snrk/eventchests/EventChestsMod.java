@@ -28,8 +28,11 @@ public class EventChestsMod implements ModInitializer {
                 if (SignContent.isPlayerLookingAtSign()) {
                     SignContent.handleSignAtCrosshair();
                 }
-                else {
+                else if (SignContent.hasSavedSignContent()) {
                     SignContent.clearSavedSignContent();
+                }
+                else {
+                    printFeedback("Öffne eine Kiste oder betrachte ein Schild.");
                 }
             }
         });
