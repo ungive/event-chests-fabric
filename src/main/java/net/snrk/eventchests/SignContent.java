@@ -85,7 +85,7 @@ public class SignContent {
                     }
                 }
             }
-            if (!hasSavedSignContent()) {
+            else {
                 if (isEmpty) {
                     EventChestsMod.printFeedback("Das Schild ist unbeschriftet.");
                 }
