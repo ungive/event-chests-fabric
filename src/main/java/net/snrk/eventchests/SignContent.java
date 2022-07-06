@@ -183,9 +183,9 @@ public class SignContent {
             Line line = getSavedSignContentLine(i);
             String lineFormatted = normalizeText(line.text);
             if (lineFormatted.length() > 0) {
-                String message = String.format("/editsign set %d %s", i + 1, lineFormatted);
-                EventChestsMod.LOGGER.info(String.format("Sending command: %s", message));
-                client.player.sendChatMessage(message);
+                String command = String.format("editsign set %d %s", i + 1, lineFormatted);
+                EventChestsMod.LOGGER.info(String.format("Sending command: %s", command));
+                client.player.sendCommand(command);
             }
         }
         clearSavedSignContent();
