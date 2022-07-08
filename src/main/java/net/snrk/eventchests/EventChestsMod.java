@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 public class EventChestsMod implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger("event-chests");
 
-    private static final String KEY_CATEGORY = "key.categories.testchestmoves";
+    private static final String KEY_CATEGORY = "key.categories.eventchests";
 
     public static final String OUTPUT_PREFIX = "§f[§cEv§7ent§cCh§7ests§f]§r §d";
 
@@ -46,7 +46,7 @@ public class EventChestsMod implements ModInitializer {
     }
 
     private KeyBinding registerKey(String key, int code) {
-        KeyBinding result = new KeyBinding("key.easierchests." + key, code, KEY_CATEGORY);
+        KeyBinding result = new KeyBinding("key.eventchests." + key, code, KEY_CATEGORY);
         KeyBindingHelper.registerKeyBinding(result);
         return result;
     }
