@@ -51,13 +51,14 @@ public class EventChestsMod implements ModInitializer {
     }
 
     public static void sendCommand(String command) {
+        String modifiedCommand = command.startsWith("/") ? command.substring(1) : command;
         MinecraftClient client = MinecraftClient.getInstance();
         ClientPlayNetworkHandler networkHandler = client.getNetworkHandler();
         if (networkHandler == null) {
             printFeedback("Befehl konnte nicht gesendet werden.");
             return;
         }
-        client.getNetworkHandler().sendCommand(command.replace("/", ""));
+        client.getNetworkHandler().sendCommand(modifiedCommand);
     }
 
     private KeyBinding registerKey(String key, int code) {
