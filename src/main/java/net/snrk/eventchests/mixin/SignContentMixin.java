@@ -4,12 +4,9 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.text.TextColor;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryEntry;
 import net.snrk.eventchests.SignContent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -68,8 +65,7 @@ public class SignContentMixin {
                 }
             }
 
-            Item item = Registry.ITEM.get(new Identifier("minecraft", "oak_sign"));
-            client.getItemRenderer().renderInGui(new ItemStack(RegistryEntry.of(item)), maxX + PADDING * 2, Y_OFFSET);
+            client.getItemRenderer().renderInGui(new ItemStack(Items.OAK_SIGN), maxX + PADDING * 2, Y_OFFSET);
         }
     }
 }
