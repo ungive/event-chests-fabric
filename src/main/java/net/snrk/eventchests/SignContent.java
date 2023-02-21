@@ -81,13 +81,13 @@ public class SignContent {
                 else {
                     MinecraftClient client = MinecraftClient.getInstance();
                     if (client.player != null) {
-                        EventChestsMod.printFeedback("Das Schild ist bereits beschriftet.");
+                        EventChestsMod.printFeedback("Kann gespeicherten Text nicht anwenden. Das Schild ist bereits beschriftet.");
                     }
                 }
             }
             else {
                 if (isEmpty) {
-                    EventChestsMod.printFeedback("Das Schild ist unbeschriftet.");
+                    EventChestsMod.printFeedback("Kann keinen Text speichern. Das Schild ist unbeschriftet.");
                 }
                 else {
                     saveSignContentAtCrosshair();
