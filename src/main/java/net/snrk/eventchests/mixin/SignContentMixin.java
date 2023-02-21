@@ -53,7 +53,7 @@ public class SignContentMixin {
                     String value = new String(Character.toChars(c.codePoint));
                     int x = baseXOffset + (int)((boxWidth - textWidth) / 2d) + xOffset;
                     int y = Y_OFFSET + PADDING + yOffset;
-                    int color = COLOR_BLACK;
+                    int color = SignContent.getSavedSignDyeColor().getMapColor().color;
                     TextColor textColor = c.style.getColor();
                     if (textColor != null) {
                         color = textColor.getRgb();

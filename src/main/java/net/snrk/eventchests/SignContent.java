@@ -5,9 +5,11 @@ import net.minecraft.block.entity.SignBlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
+import net.minecraft.util.DyeColor;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.GameMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,7 @@ public class SignContent {
 
     public static final int SIGN_LINE_COUNT = 4;
 
+    private static DyeColor savedSignDyeColor = null;
     private static ArrayList<Line> savedSignContent = null;
 
     private static final java.lang.Character FORMAT_CHAR = '\u00A7';
@@ -93,6 +96,22 @@ public class SignContent {
                     saveSignContentAtCrosshair();
                 }
             }
+
+            DyeColor dye = sign.getTextColor();
+            if (dye != DyeColor.BLACK) {
+                String dyeId = dye.getName() + "_dye";
+                String dyeText = formatForColorName("white") + FORMAT_CHAR + "o" + dyeId;
+                EventChestsMod.printFeedback("Verwendeter Farbstoff: " + dyeText);
+                MinecraftClient instance = MinecraftClient.getInstance();
+                if (instance.player != null) {
+                    if (instance.interactionManager != null && instance.interactionManager.getCurrentGameMode() == GameMode.CREATIVE) {
+                        EventChestsMod.sendCommand("give " + instance.player.getEntityName() + " " + dyeId);
+                    }
+                    else {
+                        EventChestsMod.printFeedback("Wechsle in den Creative um den Farbstoff automatisch zu erhalten.");
+                    }
+                }
+            }
         }
     }
 
@@ -100,6 +119,7 @@ public class SignContent {
         SignBlockEntity sign = getSignAtCrosshair();
         if (sign != null) {
             recreateSavedSignContent();
+            savedSignDyeColor = sign.getTextColor();
             for (int i = 0; i < SIGN_LINE_COUNT; i++) {
                 Text text = sign.getTextOnRow(i, false);
                 Line line = savedSignContent.get(i);
@@ -209,6 +229,10 @@ public class SignContent {
         return savedSignContent != null;
     }
 
+    public static DyeColor getSavedSignDyeColor() {
+        return savedSignDyeColor;
+    }
+
     public static Line getSavedSignContentLine(int lineIndex) {
         if (lineIndex < 0 || lineIndex >= savedSignContent.size()) {
             throw new IndexOutOfBoundsException();
@@ -225,6 +249,7 @@ public class SignContent {
     }
 
     public static void clearSavedSignContent() {
+        savedSignDyeColor = null;
         savedSignContent = null;
     }
 
