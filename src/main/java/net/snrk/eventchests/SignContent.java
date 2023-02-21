@@ -152,11 +152,24 @@ public class SignContent {
     private static String normalizeText(Text text) {
         StringBuilder value = new StringBuilder();
         if (!text.getSiblings().isEmpty()) {
+            boolean addedPrefix = false;
             for (Text sibling : text.getSiblings()) {
                 if (!sibling.getSiblings().isEmpty()) {
                     EventChestsMod.LOGGER.error("Unexpected siblings of a sibling.");
                 }
                 if (!sibling.getString().isEmpty()) {
+                    if (!addedPrefix) {
+                        // add the potentially unformatted prefix
+                        int index = text.getString().indexOf(sibling.getString());
+                        if (index >= 0) {
+                            String prefix = text.getString().substring(0, index);
+                            value.append(prefix);
+                        }
+                        else {
+                            value.append(text.getString());
+                        }
+                        addedPrefix = true;
+                    }
                     Style style = sibling.getStyle();
                     value.append(formatPrefixForStyle(style));
                     value.append(sibling.getString());
