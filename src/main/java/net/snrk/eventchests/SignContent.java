@@ -102,7 +102,7 @@ public class SignContent {
                 String dyeId = dye.getName() + "_dye";
                 String dyeText = formatForColorName("white") + FORMAT_CHAR + "o" + dyeId;
                 EventChestsMod.printFeedback("Verwendeter Farbstoff: " + dyeText);
-                MinecraftClient instance = MinecraftClient.getInstance();
+                /*MinecraftClient instance = MinecraftClient.getInstance();
                 if (instance.player != null) {
                     if (instance.interactionManager != null && instance.interactionManager.getCurrentGameMode() == GameMode.CREATIVE) {
                         EventChestsMod.sendCommand("give " + instance.player.getEntityName() + " " + dyeId);
@@ -110,7 +110,7 @@ public class SignContent {
                     else {
                         EventChestsMod.printFeedback("Wechsle in den Creative um den Farbstoff automatisch zu erhalten.");
                     }
-                }
+                }*/
             }
         }
     }
