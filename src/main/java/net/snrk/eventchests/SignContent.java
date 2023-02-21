@@ -96,7 +96,12 @@ public class SignContent {
                     saveSignContentAtCrosshair();
                 }
             }
+        }
+    }
 
+    public static void saveSignContentAtCrosshair() {
+        SignBlockEntity sign = getSignAtCrosshair();
+        if (sign != null) {
             DyeColor dye = sign.getTextColor();
             if (dye != DyeColor.BLACK) {
                 String dyeId = dye.getName() + "_dye";
@@ -112,12 +117,7 @@ public class SignContent {
                     }
                 }*/
             }
-        }
-    }
 
-    public static void saveSignContentAtCrosshair() {
-        SignBlockEntity sign = getSignAtCrosshair();
-        if (sign != null) {
             recreateSavedSignContent();
             savedSignDyeColor = sign.getTextColor();
             for (int i = 0; i < SIGN_LINE_COUNT; i++) {
