@@ -113,7 +113,7 @@ public class SignContent {
     }
 
     private static String formatForColorName(String colorName) {
-        return FORMAT_CHAR + switch (colorName) {
+        String code = switch (colorName) {
             case "dark_red" -> "4";
             case "red" -> "c";
             case "gold" -> "6";
@@ -130,8 +130,9 @@ public class SignContent {
             case "gray" -> "7";
             case "dark_gray" -> "8";
             case "black" -> "0";
-            default -> "";
+            default -> null;
         };
+        return code != null ? FORMAT_CHAR + code : "";
     }
 
     private static String formatPrefixForStyle(Style style) {
