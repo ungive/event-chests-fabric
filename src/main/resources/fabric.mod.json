@@ -2,15 +2,16 @@
   "schemaVersion": 1,
   "id": "event-chests",
   "version": "${version}",
-
   "name": "EventChests",
   "description": "This is an example description! Tell everyone what your mod is about!",
   "authors": [
-    "Snrk"
+    "Snrk",
+    "ungive",
+    "Jonas van den Berg"
   ],
   "contact": {
-    "homepage": "https://snrk.net/",
-    "sources": "https://github.com/snrks/fabric-event-chests"
+    "homepage": "https://github.com/ungive",
+    "sources": "https://github.com/ungive/fabric-event-chests"
   },
 
   "license": "MIT",

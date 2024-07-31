@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2022 Snrk
+ * Copyright (c) 2022 Jonas van den Berg
  * Copyright (c) 2020 Guntram Blohm
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
