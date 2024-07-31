@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "net.snrk.eventchests.mixin.client",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "GuiContainerMixin",
+    "ShulkerBoxInventoryMixin",
+    "AbstractContainerScreenMixin",
+    "SignContentMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

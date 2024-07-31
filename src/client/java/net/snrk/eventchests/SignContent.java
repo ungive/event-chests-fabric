@@ -68,9 +68,12 @@ public class SignContent {
     public static void handleSignAtCrosshair() {
         SignBlockEntity sign = getSignAtCrosshair();
         if (sign != null) {
+            // TODO what about back text?
+            var signText = sign.getFrontText();
+
             boolean isEmpty = true;
             for (int i = 0; i < SIGN_LINE_COUNT; i++) {
-                int length = sign.getTextOnRow(i, false).getString().length();
+                int length = signText.getMessage(i, false).getString().length();
                 if (length > 0) {
                     isEmpty = false;
                     break;
@@ -84,31 +87,33 @@ public class SignContent {
                 else {
                     MinecraftClient client = MinecraftClient.getInstance();
                     if (client.player != null) {
-                        EventChestsMod.printFeedback("Kann gespeicherten Text nicht anwenden. Das Schild ist bereits beschriftet.");
+                        EventChestsModClient.printFeedback("Kann gespeicherten Text nicht anwenden. Das Schild ist bereits beschriftet.");
                     }
                 }
             }
             else {
                 if (isEmpty) {
-                    EventChestsMod.printFeedback("Kann keinen Text speichern. Das Schild ist unbeschriftet.");
+                    EventChestsModClient.printFeedback("Kann keinen Text speichern. Das Schild ist unbeschriftet.");
                 }
                 else {
                     saveSignContentAtCrosshair();
                 }
             }
 
-            DyeColor dye = sign.getTextColor();
+            DyeColor dye = signText.getColor();
             if (dye != DyeColor.BLACK) {
                 String dyeId = dye.getName() + "_dye";
                 String dyeText = formatForColorName("white") + FORMAT_CHAR + "o" + dyeId;
-                EventChestsMod.printFeedback("Verwendeter Farbstoff: " + dyeText);
+                EventChestsModClient.printFeedback("Verwendeter Farbstoff: " + dyeText);
                 MinecraftClient instance = MinecraftClient.getInstance();
                 if (instance.player != null) {
                     if (instance.interactionManager != null && instance.interactionManager.getCurrentGameMode() == GameMode.CREATIVE) {
-                        EventChestsMod.sendCommand("give " + instance.player.getEntityName() + " " + dyeId);
+                        // TODO is getName correct? previously getEntityName
+                        var x = instance.player.getName().getLiteralString();
+                        EventChestsModClient.sendCommand("give " + instance.player.getName().getLiteralString() + " " + dyeId);
                     }
                     else {
-                        EventChestsMod.printFeedback("Wechsle in den Creative um den Farbstoff automatisch zu erhalten.");
+                        EventChestsModClient.printFeedback("Wechsle in den Creative um den Farbstoff automatisch zu erhalten.");
                     }
                 }
             }
@@ -119,9 +124,13 @@ public class SignContent {
         SignBlockEntity sign = getSignAtCrosshair();
         if (sign != null) {
             recreateSavedSignContent();
-            savedSignDyeColor = sign.getTextColor();
+
+            // TODO what about back text?
+            var signText = sign.getFrontText();
+
+            savedSignDyeColor = signText.getColor();
             for (int i = 0; i < SIGN_LINE_COUNT; i++) {
-                Text text = sign.getTextOnRow(i, false);
+                Text text = signText.getMessage(i, false);
                 Line line = savedSignContent.get(i);
                 line.text = text;
                 text.asOrderedText().accept((index, style, codePoint) -> {
@@ -175,7 +184,7 @@ public class SignContent {
             boolean addedPrefix = false;
             for (Text sibling : text.getSiblings()) {
                 if (!sibling.getSiblings().isEmpty()) {
-                    EventChestsMod.LOGGER.error("Unexpected siblings of a sibling.");
+                    EventChestsModClient.LOGGER.error("Unexpected siblings of a sibling.");
                 }
                 if (!sibling.getString().isEmpty()) {
                     if (!addedPrefix) {
@@ -218,8 +227,8 @@ public class SignContent {
             String lineFormatted = normalizeText(line.text);
             if (lineFormatted.length() > 0) {
                 String command = String.format("editsign set %d %s", i + 1, lineFormatted);
-                EventChestsMod.LOGGER.info(String.format("Sending command: %s", command));
-                EventChestsMod.sendCommand(command);
+                EventChestsModClient.LOGGER.info(String.format("Sending command: %s", command));
+                EventChestsModClient.sendCommand(command);
             }
         }
         clearSavedSignContent();

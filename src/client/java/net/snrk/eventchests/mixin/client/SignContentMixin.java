@@ -1,12 +1,13 @@
-package net.snrk.eventchests.mixin;
+package net.snrk.eventchests.mixin.client;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.text.TextColor;
+import net.snrk.eventchests.EventChestsModClient;
 import net.snrk.eventchests.SignContent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -23,7 +24,7 @@ public class SignContentMixin {
     private static final int COLOR_BLACK = 0;
 
     @Inject(method = "render", at = @At("RETURN"), cancellable = true)
-    public void onRender(MatrixStack matrices, float tickDelta, CallbackInfo info) {
+    public void onRender(DrawContext context, RenderTickCounter tickCounter, CallbackInfo info) {
         MinecraftClient client = MinecraftClient.getInstance();
 
         if (SignContent.hasSavedSignContent()) {
@@ -38,7 +39,7 @@ public class SignContentMixin {
             int boxHeight = PADDING * 2 + client.textRenderer.fontHeight * SignContent.SIGN_LINE_COUNT;
             boxWidth = Math.max((int)(boxHeight * WIDTH_TO_HEIGHT_RATIO), boxWidth);
 
-            DrawableHelper.fill(matrices, X_OFFSET, Y_OFFSET, X_OFFSET + boxWidth + 2 * PADDING,
+            context.fill(X_OFFSET, Y_OFFSET, X_OFFSET + boxWidth + 2 * PADDING,
                     Y_OFFSET + SignContent.SIGN_LINE_COUNT * client.textRenderer.fontHeight + 2 * PADDING,
                     0xBBb09b75);
 
@@ -58,14 +59,14 @@ public class SignContentMixin {
                     if (textColor != null) {
                         color = textColor.getRgb();
                     }
-                    client.textRenderer.draw(matrices, value, x, y, color);
+                    context.drawText(client.textRenderer, value, x, y, color, false);
                     int charWidth = client.textRenderer.getWidth(value);
                     maxX = Math.max(maxX, x + charWidth);
                     xOffset += charWidth;
                 }
             }
 
-            client.getItemRenderer().renderInGui(new ItemStack(Items.OAK_SIGN), maxX + PADDING * 2, Y_OFFSET);
+            context.drawItem(new ItemStack(Items.OAK_SIGN), maxX + PADDING * 2, Y_OFFSET);
         }
     }
 }

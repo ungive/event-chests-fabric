@@ -13,6 +13,9 @@ public class ChestContent {
     public static final int INVENTORY_SWAP_SLOT_COUNT = 27;
 
     public static void swapInventoryContents(HandledScreen<?> screen) {
+
+        EventChestsModClient.LOGGER.info("swapInventoryContents");
+
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player == null) {
             return;
@@ -39,7 +42,7 @@ public class ChestContent {
                 int playerIndex = getPlayerSwapIndex(i);
                 ItemStack stack = playerInventory.getStack(playerIndex);
                 if (stack.getCount() > 0) {
-                    EventChestsMod.printFeedback("Du hast nicht genug Platz im Inventar.");
+                    EventChestsModClient.printFeedback("Du hast nicht genug Platz im Inventar.");
                     return;
                 }
             }

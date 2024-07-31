@@ -22,10 +22,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.snrk.eventchests.mixin;
+package net.snrk.eventchests.mixin.client;
 
 import net.snrk.eventchests.ChestContent;
-import net.snrk.eventchests.EventChestsMod;
+import net.snrk.eventchests.EventChestsModClient;
 import net.snrk.eventchests.interfaces.SlotClicker;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -42,6 +42,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(HandledScreen.class)
@@ -54,7 +55,10 @@ public abstract class AbstractContainerScreenMixin extends Screen implements Slo
     @Shadow protected void onMouseClick(Slot slot, int invSlot, int button, SlotActionType slotActionType) {}
     @Shadow @Final protected ScreenHandler handler;
 
-    protected AbstractContainerScreenMixin() { super(null); }
+    protected AbstractContainerScreenMixin() {
+        super(null);
+        EventChestsModClient.LOGGER.warn("AbstractContainerScreenMixin");
+    }
 
     @Override
     public void EventChests$onMouseClick(Slot slot, int invSlot, int button, SlotActionType slotActionType) {
@@ -94,13 +98,16 @@ public abstract class AbstractContainerScreenMixin extends Screen implements Slo
 
     @Inject(method="keyPressed", at=@At("HEAD"), cancellable=true)
     public void EasierChests$keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
+
+        EventChestsModClient.LOGGER.warn("keyPressed!!");
+
         if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
             return;
         }
 
         HandledScreen<?> handledScreen = (HandledScreen<?>)(Screen)this;
 
-        if (EventChestsMod.keyInteract.matchesKey(keyCode, scanCode)) {
+        if (EventChestsModClient.keyInteract.matchesKey(keyCode, scanCode)) {
             ChestContent.swapInventoryContents(handledScreen);
             cir.setReturnValue(true);
             cir.cancel();

@@ -22,7 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.snrk.eventchests.mixin;
+package net.snrk.eventchests.mixin.client;
 
 import net.minecraft.inventory.Inventory;
 import net.minecraft.screen.ShulkerBoxScreenHandler;
